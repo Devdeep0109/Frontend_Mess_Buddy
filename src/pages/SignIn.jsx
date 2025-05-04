@@ -8,74 +8,85 @@ import UserContext from "../UseContext";
 // import UserContext from "../UseContext";
 import signupImage from "../images/signup.png"; // Importing the image
 
-
 const SignIn = () => {
-
-  const [email ,setEmail] = useState('');
-  const [password ,setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const {getUser} = useContext(UserContext)
+  const { getUser } = useContext(UserContext);
+
+  // Base URL for API calls
+  const API_BASE_URL = "https://backend-mess-buddy.vercel.app";
 
   // const user = useContext(UserContext); //userContext...
 
   //HANDLE LOGIN.......
-  const handleLogin = (e) =>{
-
+  const handleLogin = (e) => {
     e.preventDefault();
 
     //logic to send data to backend
-    
-    axios.post("http://localhost:8000/api/signin" ,{email,password}
-      // , 
-      // {
-      // headers: {
-      //   Authorization: `Bearer ${Cookies.get("token")}`,
-      // }
-    // }
-  )
-    .then((result) =>{
-      
-      if(result.status == 200){
-        Cookies.set("token" ,result.data, { expires: 365 });
-        getUser()
-        navigate("/");
-      }
-      else{
-        alert(result.data)
-      }
-    
-    }).catch(err => {
-      alert(err.message)
-    })
-    }
+
+    axios
+      .post(
+        `${API_BASE_URL}/api/signin`,
+        { email, password }
+        // ,
+        // {
+        // headers: {
+        //   Authorization: `Bearer ${Cookies.get("token")}`,
+        // }
+        // }
+      )
+      .then((result) => {
+        if (result.status == 200) {
+          Cookies.set("token", result.data, { expires: 365 });
+          getUser();
+          navigate("/");
+        } else {
+          alert(result.data);
+        }
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
 
   return (
     <div className="signIncontainer">
-     <img src={signupImage} alt="" className="img"/>
-        <form  className="signinform">
-            <h1>Login</h1>
-            
-            <label htmlFor="">Email</label>
-            <input type="text" placeholder="Enter email"  
-              value={email} onChange = {(e) =>{
-              setEmail(e.target.value)}}
-            />
+      <img src={signupImage} alt="" className="img" />
+      <form className="signinform">
+        <h1>Login</h1>
 
-            <label htmlFor="">Password</label>
-            <input type="password" name="" id="" placeholder="Enter password" 
-              value={password} onChange={(e) =>{
-                setPassword(e.target.value)
-              }}
-            />
-            <Link className="link" to="/signup">Already have an account? SignUp</Link>
-            <button className="btn" onClick={handleLogin}>Login</button>
-        </form>
-        
-          
-      </div>
-    
-  )
-}
+        <label htmlFor="">Email</label>
+        <input
+          type="text"
+          placeholder="Enter email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
 
-export default SignIn
+        <label htmlFor="">Password</label>
+        <input
+          type="password"
+          name=""
+          id=""
+          placeholder="Enter password"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
+        <Link className="link" to="/signup">
+          Already have an account? SignUp
+        </Link>
+        <button className="btn" onClick={handleLogin}>
+          Login
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default SignIn;
