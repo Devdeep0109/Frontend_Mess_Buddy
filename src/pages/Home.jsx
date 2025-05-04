@@ -12,8 +12,8 @@ const Home = () => {
     try {
       axios
         .get(
-          // "http://localhost:8000/mess/allmess",
-          "https://backend-mess-buddy.vercel.app/mess/allmess",
+          "http://localhost:8000/mess/allmess",
+          // "https://backend-mess-buddy.vercel.app/mess/allmess",
           {
             headers: {
               Authorization: `Bearer ${Cookies.get("token")}`,
