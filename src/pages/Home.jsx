@@ -10,21 +10,18 @@ const Home = () => {
 
   const getAllMess = async () => {
     try {
-      axios
-        .get(
-          "http://localhost:8000/mess/allmess",
-          // "https://backend-mess-buddy.vercel.app/mess/allmess",
-          {
-            headers: {
-              Authorization: `Bearer ${Cookies.get("token")}`,
-            },
-            // credentials: "include",
-          }
-        )
-        .then((result) => {
-          console.log(result.data.data);
-          setData(result.data.data);
-        });
+      const response = await axios.get(
+      "https://backend-mess-buddy.vercel.app/api/profile", 
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+        withCredentials: true, // Required for cookies/auth
+      }
+    ).then((result) => {
+        console.log(result.data.data);
+        setData(result.data.data);
+    });
     } catch (error) {
       console.log(error.essage);
     }
