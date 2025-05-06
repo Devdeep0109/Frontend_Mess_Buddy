@@ -24,30 +24,30 @@ const SignIn = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    //logic to send data to backend
-
     axios
       .post(
         `${API_BASE_URL}/api/signin`,
-        { email, password }
-        // ,
-        // {
-        // headers: {
-        //   Authorization: `Bearer ${Cookies.get("token")}`,
-        // }
-        // }
+        { email, password },
+        {
+          withCredentials: true, // Required for cookies
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       )
       .then((result) => {
-        if (result.status == 200) {
-          Cookies.set("token", result.data, { expires: 365 });
+        if (result.status === 200) {
+          Cookies.set("token", result.data.token, {
+            expires: 365,
+            secure: true,
+            sameSite: "none",
+          });
           getUser();
           navigate("/");
-        } else {
-          alert(result.data);
         }
       })
       .catch((err) => {
-        alert(err.message);
+        alert(err.response?.data?.message || "Login failed");
       });
   };
 

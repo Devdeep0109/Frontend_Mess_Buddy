@@ -18,7 +18,7 @@ const Home = () => {
             headers: {
               Authorization: `Bearer ${Cookies.get("token")}`,
             },
-            // credentials: "include",
+            withCredentials: true, // Send cookies
           }
         )
         .then((result) => {
