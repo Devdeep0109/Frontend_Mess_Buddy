@@ -7,65 +7,62 @@ import Comments from "../components/Comments";
 import UserContext from "../UseContext";
 
 const DisplayMessDetails = () => {
-
+  // Base URL for API calls
+  const API_BASE_URL = "https://backend-mess-buddy-nyc8.vercel.app";
   // Comment useState
-  const [commentinfo ,setCommentInfo] = useState("");
+  const [commentinfo, setCommentInfo] = useState("");
 
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-  const user_id = user.id
+  const user_id = user.id;
 
-
-  const handleSubmit = async(e) =>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-        messId:id,
-        createdBy:user_id,
-        content: commentinfo
-    }
-    console.log("Data from handleSubmit",data);
-    try{
-        axios.post("http://localhost:8000/comment/createComments", {data}).then((res) => {if(res.status == 200){
+      messId: id,
+      createdBy: user_id,
+      content: commentinfo,
+    };
+    console.log("Data from handleSubmit", data);
+    try {
+      axios
+        .post(`${API_BASE_URL}/comment/createComments`, { data })
+        .then((res) => {
+          if (res.status == 200) {
             console.log(res);
             // fetchComments()
-        }}).catch((err) => console.log(err))
+          }
+        })
+        .catch((err) => console.log(err));
+    } catch (error) {
+      alert(error.message);
     }
-    catch(error){
-        alert(error.message)
-    }
-  }
+  };
 
-
-  const {id} = useParams();
+  const { id } = useParams();
   console.log(id);
 
   //storing mess data.........
   const [mess, setMessDetails] = useState();
 
-  const [viewComment, setViewComment] = useState(false)
+  const [viewComment, setViewComment] = useState(false);
 
-
-
-  useEffect( () =>{
-
-    if(id){
-        axios.get(`http://localhost:8000/mess/single/${id}`)
-        .then((result) =>{
-          if(result.status == 200){
-            setMessDetails(result.data.data)
-          }
-          else{
+  useEffect(() => {
+    if (id) {
+      axios
+        .get(`${API_BASE_URL}/mess/single/${id}`)
+        .then((result) => {
+          if (result.status == 200) {
+            setMessDetails(result.data.data);
+          } else {
             alert(result.data.error);
-
           }
         })
-        .catch((error) =>{
-          alert("eror from display mess:" ,error.message)
-        })
+        .catch((error) => {
+          alert("eror from display mess:", error.message);
+        });
     }
-  },[id])
-
-  
+  }, [id]);
 
   // if no mess details are there........
   if (!mess) {
@@ -85,36 +82,58 @@ const DisplayMessDetails = () => {
 
       <div className="innerdiv2">
         <div className="information">
-          <p>Price(in Rs):  <b>{mess.price}/-</b>  </p>
-          <p>No. of meals: <b>{mess.noOfMeals}</b></p>
-          <p>No. of days: <b>{mess.days}</b></p>
-          <p>Additional Information: <b>{mess.additionalInfo}</b></p>
+          <p>
+            Price(in Rs): <b>{mess.price}/-</b>{" "}
+          </p>
+          <p>
+            No. of meals: <b>{mess.noOfMeals}</b>
+          </p>
+          <p>
+            No. of days: <b>{mess.days}</b>
+          </p>
+          <p>
+            Additional Information: <b>{mess.additionalInfo}</b>
+          </p>
         </div>
 
-        <p>Landmark: <b>{mess.landmark}</b></p>
+        <p>
+          Landmark: <b>{mess.landmark}</b>
+        </p>
 
         <div className="address">
-          <>Detailed Address</><br/>
+          <>Detailed Address</>
+          <br />
           <b>{mess.detailedAddress}</b>
           <p></p>
-          
         </div>
       </div>
       <div className="innerdiv3">
-      <h2>comments</h2>
-      <form onSubmit={handleSubmit} >
+        <h2>comments</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            className="commentInput"
+            type="text"
+            value={commentinfo}
+            onChange={(e) => setCommentInfo(e.target.value)}
+          />
+          <button type="submit" className="commmentButton">
+            Submit
+          </button>
+        </form>
 
-        <input className="commentInput" type="text" value={commentinfo} onChange={(e) => setCommentInfo(e.target.value)} />
-        <button type="submit" className="commmentButton">Submit</button>
-
-      </form>
-
-      <p onClick={() => {setViewComment(!viewComment)}} style={{cursor: 'pointer', display:'inline', color: 'gray'}} >View Comments </p>
+        <p
+          onClick={() => {
+            setViewComment(!viewComment);
+          }}
+          style={{ cursor: "pointer", display: "inline", color: "gray" }}
+        >
+          View Comments{" "}
+        </p>
       </div>
 
-      {viewComment && <Comments mess_id={id} /> }    
+      {viewComment && <Comments mess_id={id} />}
     </div>
-  )
-}
+  );
+};
 
 export default DisplayMessDetails;

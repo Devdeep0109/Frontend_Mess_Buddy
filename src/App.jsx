@@ -22,7 +22,7 @@ function App() {
   const getUser = async () => {
     try {
       const response = await axios.get(
-        "https://backend-mess-buddy.vercel.app/api/profile",
+        "https://backend-mess-buddy-nyc8.vercel.app/api/profile",
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,

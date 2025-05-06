@@ -15,8 +15,8 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const API_BASE_URL = "https://backend-mess-buddy.vercel.app";
-
+    // Base URL for API calls
+    const API_BASE_URL = "https://backend-mess-buddy-nyc8.vercel.app";
     if (password !== confirmPassword) {
       alert("Invalid Password");
     }
