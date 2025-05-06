@@ -7,8 +7,6 @@ import Comments from "../components/Comments";
 import UserContext from "../UseContext";
 
 const DisplayMessDetails = () => {
-  // Base URL for API calls
-  const API_BASE_URL = "https://backend-mess-buddy-nyc8.vercel.app";
   // Comment useState
   const [commentinfo, setCommentInfo] = useState("");
 
@@ -26,7 +24,9 @@ const DisplayMessDetails = () => {
     console.log("Data from handleSubmit", data);
     try {
       axios
-        .post(`${API_BASE_URL}/comment/createComments`, { data })
+        .post(`${import.meta.env.VITE_SERVER_URL}/comment/createComments`, {
+          data,
+        })
         .then((res) => {
           if (res.status == 200) {
             console.log(res);
@@ -50,7 +50,7 @@ const DisplayMessDetails = () => {
   useEffect(() => {
     if (id) {
       axios
-        .get(`${API_BASE_URL}/mess/single/${id}`)
+        .get(`${import.meta.env.VITE_SERVER_URL}/mess/single/${id}`)
         .then((result) => {
           if (result.status == 200) {
             setMessDetails(result.data.data);

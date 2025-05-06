@@ -14,9 +14,6 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const { getUser } = useContext(UserContext);
-
-  // Base URL for API calls
-  const API_BASE_URL = "https://backend-mess-buddy-nyc8.vercel.app";
   // const user = useContext(UserContext); //userContext...
 
   //HANDLE LOGIN.......
@@ -25,7 +22,7 @@ const SignIn = () => {
 
     axios
       .post(
-        `${API_BASE_URL}/api/signin`,
+        `${import.meta.env.VITE_SERVER_URL}/api/signin`,
         { email, password },
         {
           withCredentials: true, // Required for cookies

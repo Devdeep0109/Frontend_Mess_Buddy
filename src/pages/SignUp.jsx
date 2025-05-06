@@ -15,15 +15,17 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Base URL for API calls
-    const API_BASE_URL = "https://backend-mess-buddy-nyc8.vercel.app";
     if (password !== confirmPassword) {
       alert("Invalid Password");
     }
 
     //signup logic to send to backend
     axios
-      .post(`${API_BASE_URL}/api/signup`, { username, email, password })
+      .post(`${import.meta.env.VITE_SERVER_URL}/api/signup`, {
+        username,
+        email,
+        password,
+      })
       .then((result) => {
         console.log(result);
         navigate("/signin");

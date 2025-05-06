@@ -46,13 +46,10 @@ const MessDetails = () => {
 
     console.log("Cover Image: ", coverimage);
 
-    // Base URL for API calls
-    const API_BASE_URL = "https://backend-mess-buddy-nyc8.vercel.app";
-
     //logic to send data to backend
     axios
       .post(
-        `${API_BASE_URL}/mess/messdetails`,
+        `${import.meta.env.VITE_SERVER_URL}/mess/messdetails`,
         { coverimage, data },
         {
           headers: {

@@ -8,13 +8,12 @@ import "../pagesCSS/Home.css";
 const Home = () => {
   const [data, setData] = useState([]);
   // Base URL for API calls
-  const API_BASE_URL = "https://backend-mess-buddy-nyc8.vercel.app";
   const getAllMess = async () => {
     try {
       axios
         .get(
           // "http://localhost:8000/mess/allmess",
-          `${API_BASE_URL}/mess/allmess`,
+          `${import.meta.env.VITE_SERVER_URL}/mess/allmess`,
           {
             headers: {
               Authorization: `Bearer ${Cookies.get("token")}`,
